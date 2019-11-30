@@ -8,6 +8,5 @@
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
-echo $this->render('@surveyRoot/views/widget/answers/' . $question->survey_question_type, ['question' => $question, 'form' => $form, 'readonly' => $readonly]);
+echo $this->render('@surveyRoot/views/widget/answers/' . $question->survey_question_type, ['question' => $question, 'form' => $form]);

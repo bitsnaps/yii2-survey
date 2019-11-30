@@ -92,6 +92,7 @@ class DefaultController extends Controller
         }
         foreach ($survey->questions as $question) {
             if (!$this->validateQuestion($question)) {
+                var_dump($question->getFirstErrors());
                 throw new UserException('An error has been occurred during validating.');
             }
         }

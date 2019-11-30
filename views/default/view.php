@@ -7,14 +7,12 @@
  */
 
 use cenotia\components\modal\RemoteModal;
-use kartik\select2\Select2;
 use onmotion\survey\models\search\SurveyStatSearch;
 use kartik\editable\Editable;
 use kartik\helpers\Html;
 use wbraganca\dynamicform\DynamicFormWidget;
 use yii\bootstrap\BootstrapPluginAsset;
 use yii\helpers\Url;
-use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use yii\widgets\Pjax;
 
@@ -35,23 +33,18 @@ BootstrapPluginAsset::register($this);
                 <h4><?= $survey->survey_name; ?></h4>
                 <div>
                     <div class="survey-labels">
-                        <a href="<?= Url::toRoute(['default/update/', 'id' => $survey->survey_id]) ?>"
-                           class="btn btn-info btn-xs survey-label" data-pjax="0"
-                           title="edit"><span class="glyphicon glyphicon-pencil"></span></a>
-                        <span class="survey-label btn btn-info btn-xs respondents-toggle" data-toggle="tooltip"
+                        <span class="survey-label respondents-toggle" data-toggle="tooltip"
                               title="<?= \Yii::t('survey', 'Respondents') ?>"><?= \Yii::t('survey', 'Number of respondents') ?>: <?= $survey->getRespondentsCount() ?></span>
-                        <span class="survey-label btn btn-info btn-xs" data-toggle="tooltip"
-                              title="<?= \Yii::t('survey', 'Questions') ?>"><?= \Yii::t('survey', 'Questions') ?>: <?= $survey->getQuestions()->count() ?></span>
-	                    <span class="survey-label btn btn-info btn-xs restricted-users-toggle" data-toggle="tooltip"
-	                          title="<?= \Yii::t('survey', 'Restricted users') ?>"><?= \Yii::t('survey', 'Restricted users') ?>: <?= $survey->getRestrictedUsersCount() ?></span>
+                        <span class="survey-label" data-toggle="tooltip"
+                              title="<?= \Yii::t('survey', 'Questions') ?>"><?= $survey->getQuestions()->count() ?></span>
                     </div>
 
                 </div>
 
             </div>
             <div class="subcontainer">
+
                 <?php
-                echo Html::beginTag('div', ['class' => 'row']);
                 echo Html::beginTag('div', ['class' => 'col-md-6']);
                 echo Html::label(Yii::t('survey', 'Expired at') . ': ', 'survey-survey_expired_at');
                 echo Editable::widget([
@@ -77,8 +70,9 @@ BootstrapPluginAsset::register($this);
                 echo Html::endTag('div');
 
                 echo Html::beginTag('div', ['class' => 'col-md-6']);
+
                 echo Html::endTag('div');
-                echo Html::endTag('div');
+                echo Html::tag('div', '', ['class' => 'clearfix']);
 
                 Pjax::begin([
                     'id' => 'survey-pjax',
@@ -103,16 +97,13 @@ BootstrapPluginAsset::register($this);
                     ],
                 ]);
 
-                echo Html::beginTag('div', ['class' => 'row']);
                 echo Html::beginTag('div', ['class' => 'col-md-12']);
                 echo $form->field($survey, "survey_descr", ['template' => "<div class='survey-form-field'>{label}{input}</div>",]
                 )->textarea(['rows' => 3]);
                 echo Html::tag('div', '', ['class' => 'clearfix']);
                 echo Html::endTag('div');
-                echo Html::endTag('div');
 
-                echo Html::beginTag('div', ['class' => 'row']);
-                echo Html::beginTag('div', ['class' => 'col-md-3']);
+                echo Html::beginTag('div', ['class' => 'col-md-6']);
                 echo $form->field($survey, "survey_is_closed", ['template' => "<div class='survey-form-field submit-on-click'>{input}{label}</div>",]
                 )->checkbox(['class' => 'checkbox danger'], false);
                 echo Html::tag('div', '', ['class' => 'clearfix']);
@@ -127,13 +118,14 @@ BootstrapPluginAsset::register($this);
 						"survey_is_private",
 						['template' => "<div class='survey-form-field submit-on-click'>{input}{label}</div>",]
 					)->checkbox(['class' => 'checkbox danger'], false);
-				}
+				}                
                 echo Html::endTag('div');
 
-                echo Html::beginTag('div', ['class' => 'col-md-9']);
+                echo Html::beginTag('div', ['class' => 'col-md-6']);
                 echo $form->field($survey, "survey_tags")->input('text', ['placeholder' => 'Comma separated']);
+
                 echo Html::endTag('div');
-                echo Html::endTag('div');
+
 
                 echo Html::submitButton('', ['class' => 'hidden']);
                 echo Html::tag('div', '', ['class' => 'clearfix']);
@@ -174,9 +166,7 @@ BootstrapPluginAsset::register($this);
 <div class="hidden-modal-right " id="restricted-users-modal">
     <div class="close-btn">&times;</div>
     <?php
-
     $surveyId = $survey->survey_id;
-
     echo $this->render('restrictedUsers',
         compact('searchModel', 'restrictedUserDataProvider', 'surveyId', 'withUserSearch'));
     ?>

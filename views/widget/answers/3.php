@@ -11,7 +11,6 @@ use yii\helpers\Html;
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
 $userAnswers = $question->userAnswers;
 $userAnswer = !empty(current($userAnswers)) ? current($userAnswers) : (new SurveyUserAnswer()) ;
@@ -22,5 +21,5 @@ foreach ($question->answers as $i => $answer) {
 }
 
 echo $form->field($userAnswer, "[$question->survey_question_id]survey_user_answer_value")->dropDownList($ddList,
-    ['encode' => false, 'prompt' => \Yii::t('survey', 'Select...'), 'disabled' => $readonly])->label(false);
+    ['encode' => false, 'prompt' => \Yii::t('survey', 'Select...')])->label(false);
 echo Html::tag('div', '', ['class' => 'clearfix']);

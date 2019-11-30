@@ -1,7 +1,6 @@
 <?php
 
 namespace onmotion\survey\controllers;
-
 use onmotion\survey\models\search\SurveySearch;
 use onmotion\survey\models\search\SurveyStatSearch;
 use onmotion\survey\models\Survey;
@@ -26,13 +25,11 @@ use yii\web\NotFoundHttpException;
 use yii\web\Response;
 use yii\web\UploadedFile;
 use yii\widgets\ActiveForm;
-
 /**
  * Default controller for the `survey` module
  */
 class DefaultController extends Controller
 {
-
     /**
      * Renders the index view for the module
      * @return string
@@ -41,16 +38,13 @@ class DefaultController extends Controller
     {
         $searchModel = new SurveySearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
-
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }
-
     public function actionDelete($id)
     {
-
         Yii::$app->response->format = Response::FORMAT_JSON;
         $survey = $this->findModel($id);
         if ($survey->delete()) {
@@ -60,23 +54,18 @@ class DefaultController extends Controller
         }
         return ['forceClose' => true, 'forceReload' => '#survey-index-pjax'];
     }
-
     public function actionView($id)
     {
         $survey = $this->findModel($id);
-
         $searchModel = new SurveyStatSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['survey_stat_survey_id' => $survey->survey_id])
             ->orderBy(['survey_stat_assigned_at' => SORT_DESC]);
-
         $dataProvider->pagination->pageSize = 10;
-
         $restrictedUserDataProvider = new ActiveDataProvider([
         	'query' => $survey->getRestrictedUsers()
         ]);
 	    $restrictedUserDataProvider->pagination->pageSize = 10;
-
         return $this->render('view', [
         	'survey' => $survey,
 	        'searchModel' => $searchModel,
@@ -85,7 +74,6 @@ class DefaultController extends Controller
 	        'withUserSearch' => $this->allowUserSearch()
         ]);
     }
-
     public function actionCreate()
     {
         $survey = new Survey();
@@ -93,22 +81,18 @@ class DefaultController extends Controller
         $survey->survey_is_closed = true;
         $survey->save(false);
         \Yii::$app->session->set('surveyUploadsSubpath', $survey->survey_id);
-
         return $this->render('create', [
         	'survey' => $survey,
 	        'withUserSearch' => $this->allowUserSearch()
         ]);
     }
-
     public function actionRespondents($surveyId)
     {
         $searchModel = new SurveyStatSearch();
         $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
         $dataProvider->query->andWhere(['survey_stat_survey_id' => $surveyId])
             ->orderBy(['survey_stat_assigned_at' => SORT_DESC]);
-
         $dataProvider->pagination->pageSize = 10;
-
         if (\Yii::$app->request->isPjax) {
             $dataProvider->pagination->route = Url::toRoute(['default/respondents']);
             return $this->renderAjax('respondents', [
@@ -118,9 +102,7 @@ class DefaultController extends Controller
 	            'withUserSearch' => $this->allowUserSearch()
             ]);
         }
-
         \Yii::$app->response->format = Response::FORMAT_JSON;
-
         return [
             'title' => "Assigned respondents",
             'content' => $this->renderAjax('respondents',
@@ -129,7 +111,6 @@ class DefaultController extends Controller
             'footer' => Html::button('Close', ['class' => 'btn btn-default', 'data-dismiss' => "modal"])
         ];
     }
-
 	public function actionRestrictedUsers($surveyId)
 	{
 		$survey = $this->findModel($surveyId);
@@ -137,7 +118,6 @@ class DefaultController extends Controller
 			'query' => $survey->getRestrictedUsers()
 		]);
 		$restrictedUserDataProvider->pagination->pageSize = 10;
-
 		return [
 			'title' => "RestrictedUsers",
 			'content' => $this->renderAjax('restrictedUsers',
@@ -146,7 +126,6 @@ class DefaultController extends Controller
 			'footer' => Html::button('Close', ['class' => 'btn btn-default', 'data-dismiss' => "modal"])
 		];
 	}
-
     /**
      * Returns user models founded by token
      *
@@ -172,14 +151,11 @@ class DefaultController extends Controller
         $ids = ArrayHelper::getColumn($userList, 'id');
         $assignedRespondents = SurveyStat::find()->where(['survey_stat_survey_id' => $surveyId])
             ->andWhere(['survey_stat_user_id' => $ids])->asArray()->all();
-
         foreach ($assignedRespondents as $item) {
             $userList[$item['survey_stat_user_id']]['isAssigned'] = true;
         }
-
         return json_encode($userList);
     }
-
    /**
      * Returns user models founded by token
      *
@@ -202,12 +178,10 @@ class DefaultController extends Controller
 		        ];
 	        });
         $ids = ArrayHelper::getColumn($userList, 'id');
-
         return json_encode([
         	'results' => array_values($userList)
         ]);
     }
-
     /**
      * @param $surveyId
      * @return bool
@@ -216,10 +190,8 @@ class DefaultController extends Controller
     {
         \Yii::$app->response->format = Response::FORMAT_JSON;
         $userId = \Yii::$app->request->post('userId');
-
         return SurveyStat::assignUser($userId, $surveyId);
     }
-
     /**
      * @param $surveyId
      * @return array|string
@@ -228,10 +200,8 @@ class DefaultController extends Controller
     {
         $userId = \Yii::$app->request->post('userId');
         SurveyStat::unassignUser($userId, $surveyId);
-
         return $this->actionRespondents($surveyId);
     }
-
 	/**
 	 * @param $surveyId
 	 * @return bool
@@ -240,10 +210,8 @@ class DefaultController extends Controller
 	{
 		\Yii::$app->response->format = Response::FORMAT_JSON;
 		$userId = \Yii::$app->request->post('userId');
-
 		return Survey::assignRestrictedUser($userId, $surveyId);
 	}
-
 	/**
 	 * @param $surveyId
 	 * @return array|string
@@ -252,20 +220,16 @@ class DefaultController extends Controller
 	{
 		$userId = \Yii::$app->request->post('userId');
 		Survey::unassignRestrictedUser($userId, $surveyId);
-
 		return $this->actionRestrictedUsers($surveyId);
 	}
-
 	public function actionUpdate($id)
     {
         $survey = $this->findModel($id);
         \Yii::$app->session->set('surveyUploadsSubpath', $id);
-
         if (\Yii::$app->request->isPjax) {
             if ($survey->load(\Yii::$app->request->post()) && $survey->validate()) {
                 $survey->save();
 	            $survey->unlinkAll('restrictedUsers', true);
-
 	            $post = \Yii::$app->request->post('Survey');
 	            if (array_key_exists('restrictedUserIds', $post) && is_array($post['restrictedUserIds']))
 	            {
@@ -281,23 +245,18 @@ class DefaultController extends Controller
                 ]);
             }
         }
-
         return $this->render('update', [
         	'survey' => $survey,
 	        'withUserSearch' => $this->allowUserSearch()
         ]);
     }
-
-
     public function actionUpdateEditable($property)
     {
         $model = $this->findModel(\Yii::$app->request->post('id'));
-
         // Check if there is an Editable ajax request
         if (isset($_POST['hasEditable'])) {
             // use Yii's response format to encode output as JSON
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
-
             // read your posted model attributes
             if ($model->load($_POST)) {
                 // read or convert your posted information
@@ -305,28 +264,23 @@ class DefaultController extends Controller
                     // return JSON encoded output in the below format
                     return ['output' => $model->$property, 'message' => ''];
                 }
-
                 return ['output' => '', 'message' => $model->getFirstError($property)];
             } // else if nothing to do always return an empty JSON encoded output
             else {
                 return ['output' => '', 'message' => ''];
             }
         }
-
         throw new BadRequestHttpException();
     }
-
     public function actionUpdateImage($id)
     {
         $model = $this->findModel($id);
         $model['imageFile'] = UploadedFile::getInstance($model, 'imageFile');
-
         $validate = ActiveForm::validate($model);
         if (\Yii::$app->request->isAjax && !empty($validate)) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             return $validate;
         }
-
         if (Yii::$app->request->isPost && $model->validate()) {
             $imageFile = ArrayHelper::getValue($model, 'imageFile');
             if (!empty($imageFile)) {
@@ -345,13 +299,10 @@ class DefaultController extends Controller
                     )->resize(
                         new Box(400, 400)
                     );
-
                 } catch (\Exception $e) {
                     Yii::$app->session->setFlash("error", $e->getMessage());
                 }
-
                 //upload and save db
-
                 $basepath = $this->module->params['uploadsPath'];
                 $path = \Yii::getAlias($basepath) . '/' . $name;
                 $path = FileHelper::normalizePath($path);
@@ -369,23 +320,19 @@ class DefaultController extends Controller
                 }
             }
             return $this->renderPartial('update', ['survey' => $model]);
-
         } else {
             if ($model->hasErrors()) {
                 Yii::$app->session->setFlash("error", "Ошибка сохранения " . current($model->getFirstErrors()));
             }
         }
-
         return true;
     }
-
 	/**
 	 * @return bool
 	 */
-	public function allowUserSearch(): bool {
+	public function allowUserSearch() {
 		return is_subclass_of($this->module->userClass, SurveyInterface::class);
 	}
-
 	protected function findModel($id)
     {
         if (($model = Survey::findOne($id)) !== null) {
@@ -394,6 +341,4 @@ class DefaultController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
-
 }

@@ -20,7 +20,7 @@ $this->title = Yii::t('survey', 'Create new survey');
 
 
 echo $this->render('_form', [
-	'survey' => $survey,
-	'withUserSearch' => $withUserSearch
+    'survey' => $survey,
+    'withUserSearch' => $withUserSearch
 ]);
 

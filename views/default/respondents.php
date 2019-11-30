@@ -1,28 +1,21 @@
 <?php
-
 /* @var $this yii\web\View */
-
 use kartik\typeahead\Typeahead;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-
 /* @var $searchModel \onmotion\survey\models\search\SurveyStatSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 /* @var $surveyId integer */
-
 ?>
 <div id="survey-respondents" class="survey-container">
 
 	<?php
-
 	if ($withUserSearch) {
 		echo Html::beginTag('div', ['id' => 'addition-form']);
-
 		echo Html::label(\Yii::t('survey', 'Add respondents'), [], ['class' => 'control-label']);
-
 		$assignUrl = Url::toRoute(['default/assign-user', 'surveyId' => $surveyId]);
 		$pjaxUrl = Url::toRoute(['default/respondents', 'surveyId' => $surveyId]);
 		echo Typeahead::widget([
@@ -79,7 +72,6 @@ JS
 		]);
 		echo Html::endTag('div');
 	}
-
 	Pjax::begin([
 		'id' => 'survey-respondents-pjax',
 		'enableReplaceState' => false,
@@ -89,7 +81,6 @@ JS
 			//   'async' => false
 		],
 	]);
-
 	ActiveForm::begin([
 		'id' => 'survey-respondents-form',
 		'action' => Url::toRoute(['default/unassign-user', 'surveyId' => $surveyId]),
@@ -97,7 +88,6 @@ JS
 		'enableAjaxValidation' => false,
 		'options' => ['data-pjax' => true],
 	]);
-
 	echo ListView::widget([
 		'id' => 'survey-respondents-list',
 		'layout' => "<div class='pull-right'>{summary}</div>\n<div class='clearfix'></div>{items}\n<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
@@ -112,7 +102,6 @@ JS
 				<?php
 				echo $surveyStat->user->fullname
 				?>
-
 			</div>
 			<div class="buttons">
 				<?php
@@ -131,8 +120,6 @@ JS
 	]);
 	ActiveForm::end();
 	Pjax::end();
-
 	?>
 
 </div>
-    

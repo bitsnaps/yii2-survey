@@ -19,6 +19,6 @@ $this->title = Yii::t('survey', 'Update survey');
 
 
 echo $this->render('_form', [
-	'survey' => $survey,
-	'withUserSearch' => $withUserSearch
+    'survey' => $survey,
+    'withUserSearch' => $withUserSearch
 ]);

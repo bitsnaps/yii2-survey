@@ -12,7 +12,6 @@ use yii\helpers\Html;
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
 $userAnswers = $question->userAnswers;
 $userAnswer = !empty(current($userAnswers)) ? current($userAnswers) : (new SurveyUserAnswer());
@@ -30,9 +29,9 @@ foreach ($question->answers as $i => $answer) {
 echo $form->field($userAnswer, "[$question->survey_question_id]survey_user_answer_value",
     ['template' => "<div class='survey-questions-form-field radio-group'>{label}{input}</div>\n{hint}\n{error}"])
     ->radioList($radioList, ['encode' => false,
-        'item' => function ($index, $label, $name, $checked, $value) use ($readonly) {
+        'item' => function ($index, $label, $name, $checked, $value) {
             $id = uniqid('radio-');
-            return Html::radio($name, $checked, ['value' => $value, 'class' => 'css-radio', 'id' => $id, 'disabled' => $readonly]) . "<label class='css-label' for='$id'>" . $label . '</label>';
+            return Html::radio($name, $checked, ['value' => $value, 'class' => 'css-radio', 'id' => $id]) . "<label class='css-label' for='$id'>" . $label . '</label>';
         }
     ])->label(false);
 

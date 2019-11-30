@@ -35,7 +35,7 @@ class QuestionController extends Controller
     {
 
         $stat = SurveyStat::getAssignedUserStat(\Yii::$app->user->getId(), $question->survey->survey_id);
-        //не работаем с завершенными опросами
+        //do not work with completed surveys
         if ($stat->survey_stat_is_done) {
             return false;
         }
@@ -48,7 +48,7 @@ class QuestionController extends Controller
         $answersData = ArrayHelper::getValue($post, "SurveyUserAnswer.{$question->survey_question_id}");
         $userAnswers = $question->userAnswers;
 
-	    if (!empty($answersData)) {
+        if (!empty($answersData)) {
             if ($question->survey_question_type === SurveyType::TYPE_MULTIPLE
                 || $question->survey_question_type === SurveyType::TYPE_RANKING
                 || $question->survey_question_type === SurveyType::TYPE_MULTIPLE_TEXTBOX
@@ -56,11 +56,7 @@ class QuestionController extends Controller
                 || $question->survey_question_type === SurveyType::TYPE_CALENDAR
             ) {
                 foreach ($question->answers as $i => $answer) {
-	                if (!$question->survey->isAccessibleByCurrentUser) {
-		                die(['lkj']);
-	                }
-
-	                $userAnswer = isset($userAnswers[$answer->survey_answer_id]) ? $userAnswers[$answer->survey_answer_id] : (new SurveyUserAnswer([
+                    $userAnswer = isset($userAnswers[$answer->survey_answer_id]) ? $userAnswers[$answer->survey_answer_id] : (new SurveyUserAnswer([
                         'survey_user_answer_user_id' => \Yii::$app->user->getId(),
                         'survey_user_answer_survey_id' => $question->survey_question_survey_id,
                         'survey_user_answer_question_id' => $question->survey_question_id,
@@ -118,7 +114,6 @@ class QuestionController extends Controller
 
         return $this->renderAjax('@surveyRoot/views/widget/question/_form', ['question' => $question, 'number' => $n]);
     }
-
 
     protected function findModel($id)
     {

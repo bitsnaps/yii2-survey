@@ -14,7 +14,6 @@ use yii\helpers\Url;
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
 $userAnswers = $question->userAnswers;
 $userAnswer = !empty(current($userAnswers)) ? current($userAnswers) : (new SurveyUserAnswer());
@@ -33,9 +32,6 @@ echo $form->field($userAnswer, "[$question->survey_question_id]survey_user_answe
         'now' => 0,
         'step' => 1,
         'range' => false,
-    ],
-	'options' => [
-	    'disabled' => $readonly,
     ],
 ])->label(false);
 

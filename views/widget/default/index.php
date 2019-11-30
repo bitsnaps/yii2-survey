@@ -23,27 +23,6 @@ use yii\helpers\Url;
 BootstrapPluginAsset::register($this);
 echo Html::csrfMetaTags();
 
-
-if ($stat && $stat->survey_stat_is_done) {
-	$status = 'Completed';
-	$statusClass = 'is-done';
-} else {
-	$statusClass = $survey->getStatus();
-	switch ($statusClass) {
-		case 'active':
-			$status = 'Active';
-			break;
-		case 'expired':
-			$status = 'Expired';
-			break;
-		case 'closed':
-			$status = 'Closed';
-			break;
-		default:
-			$status = 'undefined';
-			break;
-	}
-}
 ?>
 
     <div id="survey-widget">
@@ -63,11 +42,7 @@ if ($stat && $stat->survey_stat_is_done) {
                     <div id="survey-questions">
                         <?php
                         foreach ($survey->questions as $i => $question) {
-                            echo $this->render('@surveyRoot/views/widget/question/_form', [
-                                'question' => $question,
-	                            'number' => $i,
-	                            'readonly' => $statusClass !== 'active'
-	                        ]);
+                            echo $this->render('@surveyRoot/views/widget/question/_form', ['question' => $question, 'number' => $i]);
                         }
                         ?>
                     </div>
@@ -78,6 +53,26 @@ if ($stat && $stat->survey_stat_is_done) {
             <div class="col-sm-4 hidden-xs">
                 <div class="survey-infopane" data-spy="affix" data-offset-top="260">
                     <?php
+                    if ($stat && $stat->survey_stat_is_done) {
+                        $status = 'Completed';
+                        $statusClass = 'is-done';
+                    } else {
+                        $statusClass = $survey->getStatus();
+                        switch ($statusClass) {
+                            case 'active':
+                                $status = 'Active';
+                                break;
+                            case 'expired':
+                                $status = 'Expired';
+                                break;
+                            case 'closed':
+                                $status = 'Closed';
+                                break;
+                            default:
+                                $status = 'undefined';
+                                break;
+                        }
+                    }
                     echo Html::beginTag('div', ['class' => 'infopane-block']);
                     echo Html::tag('div', $status, ['class' => "status $statusClass"]);
                     echo Html::endTag('div');
@@ -121,6 +116,7 @@ if ($stat && $stat->survey_stat_is_done) {
 
         </div>
         <?php
+        $stat = SurveyStat::findOne(['survey_stat_survey_id' => $survey->survey_id, 'survey_stat_user_id' => \Yii::$app->user->getId()]);
 
         if ($statusClass === 'active') {
             echo Html::button(\Yii::t('survey', 'Done'),

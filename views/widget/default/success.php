@@ -16,6 +16,6 @@ use yii\helpers\Url;
 ?>
 
 <p class="text">
-	<?php echo \Yii::t('survey', 'Thank you for participating in the survey.'); ?>
+    Thank you for participating in the survey.
 </p>
 

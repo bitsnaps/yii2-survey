@@ -18,6 +18,7 @@ use yii\helpers\Url;
 
 ?>
 
-<h4><?php echo \Yii::t('survey', 'This survey is closed'); ?></h4>
+
+<h4>Survey Closed</h4>
 
 

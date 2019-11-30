@@ -201,14 +201,17 @@ class SurveyStat extends \yii\db\ActiveRecord
      */
     static function getAssignedUserStat($userId, $surveyId){
 
-        $user = Survey::findOne($surveyId);
-        if (!$user) {
+        $survey = Survey::findOne($surveyId);
+        if (!$survey) {
             throw new UserException('survey does not exist');
         }
 
         /** @var \app\modules\user\models\User $User */
-        $User = \Yii::$app->user->identityClass;
-        $user = $User::findOne($userId);
+//        $User = \Yii::$app->user->identityClass;
+//        $user = $User::findOne($userId);
+//        $user = $User->findOne(['id' => $userId]);
+//        $user = \Yii::$app->user->identityClass->find(['id' => $userId])-one();
+        $user = \Yii::$app->user->getId();
         if (!$user) {
             throw new UserException('user does not exist');
         }

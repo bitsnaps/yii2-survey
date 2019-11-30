@@ -8,18 +8,19 @@
 
 use onmotion\survey\models\SurveyUserAnswer;
 use kartik\date\DatePicker;
+use kartik\datetime\DateTimePicker;
 use vova07\imperavi\Widget;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
 $userAnswers = $question->userAnswers;
 
 foreach ($question->answers as $i => $answer) {
-    $userAnswer = $userAnswers[$answer->survey_answer_id] ?? (new SurveyUserAnswer());
+//    $userAnswer = $userAnswers[$answer->survey_answer_id] ?? (new SurveyUserAnswer()); //PHP7
+    $userAnswer = isset($userAnswers[$answer->survey_answer_id])? $userAnswers[$answer->survey_answer_id] : (new SurveyUserAnswer());
 
     echo $form->field($userAnswer, "[$question->survey_question_id][$answer->survey_answer_id]survey_user_answer_value",
         [
@@ -29,7 +30,6 @@ foreach ($question->answers as $i => $answer) {
     )->widget(DatePicker::classname(), [
         'options' => ['placeholder' => 'Enter event time ...'],
         'removeButton' => false,
-	    'disabled' => $readonly,
         'pluginOptions' => [
             'format' => 'dd-MM-yyyy',
             'autoclose' => true

@@ -13,7 +13,6 @@ use yii\helpers\Url;
 
 /** @var $question \onmotion\survey\models\SurveyQuestion */
 /** @var $form \yii\widgets\ActiveForm */
-/** @var $readonly boolean */
 
 $userAnswers = $question->userAnswers;
 
@@ -23,7 +22,8 @@ for ($i = 1, $answersCnt = count($question->answers); $i <= $answersCnt; ++$i){
 }
 
 foreach ($question->answers as $i => $answer) {
-    $userAnswer = $userAnswers[$answer->survey_answer_id] ?? (new SurveyUserAnswer());
+//    $userAnswer = $userAnswers[$answer->survey_answer_id] ?? (new SurveyUserAnswer()); // PHP7
+    $userAnswer = isset($userAnswers[$answer->survey_answer_id])? $userAnswers[$answer->survey_answer_id] : (new SurveyUserAnswer());
 
     $label = '<div class="answer-text"><div class="name">' . $answer->survey_answer_name . '</div>';
 
@@ -37,7 +37,7 @@ foreach ($question->answers as $i => $answer) {
     echo Html::tag('div', $form->field($userAnswer, "[$question->survey_question_id][$answer->survey_answer_id]survey_user_answer_value",[
         'template' => "{input}{label}\n{hint}\n{error}",
     ])
-        ->dropDownList($ddList, ['encode' => false, 'prompt' => \Yii::t('survey', 'Select...'), 'disabled' => $readonly])->label(false));
+        ->dropDownList($ddList, ['encode' => false, 'prompt' => \Yii::t('survey', 'Select...')])->label(false));
     echo $label;
     echo Html::endTag('div');
 

@@ -1,26 +1,19 @@
 <?php
-
 /* @var $this yii\web\View */
-
 use kartik\typeahead\Typeahead;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 use yii\widgets\ListView;
 use yii\widgets\Pjax;
-
 /* @var $restrictedUserDataProvider yii\data\ActiveDataProvider */
 /* @var $surveyId integer */
-
 ?>
 <div id="survey-restricted-users" class="survey-container">
 
 	<?php
-
 	echo Html::beginTag('div', ['id' => 'addition-form']);
-
 	echo Html::label(\Yii::t('survey', 'Add restricted users'), [], ['class' => 'control-label']);
-
 	$assignUrl = Url::toRoute(['default/assign-restricted-user', 'surveyId' => $surveyId]);
 	$pjaxUrl = Url::toRoute(['default/restricted-users', 'surveyId' => $surveyId]);
 	echo Typeahead::widget([
@@ -76,7 +69,6 @@ JS
 		'options' => ['placeholder' => 'Type some words...'],
 	]);
 	echo Html::endTag('div');
-
 	Pjax::begin([
 		'id' => 'survey-restricted-users-pjax',
 		'enableReplaceState' => false,
@@ -86,7 +78,6 @@ JS
 			//   'async' => false
 		],
 	]);
-
 	ActiveForm::begin([
 		'id' => 'survey-restricted-users-form',
 		'action' => Url::toRoute(['default/unassign-user', 'surveyId' => $surveyId]),
@@ -94,7 +85,6 @@ JS
 		'enableAjaxValidation' => false,
 		'options' => ['data-pjax' => true],
 	]);
-
 	echo ListView::widget([
 		'id' => 'survey-restricted-users-list',
 		'layout' => "<div class='pull-right'>{summary}</div>\n<div class='clearfix'></div>{items}\n<div class='clearfix'></div><div class='col-md-12'>{pager}</div>",
@@ -107,7 +97,6 @@ JS
 				<?php
 				echo $model->fullname
 				?>
-
 			</div>
 			<div class="buttons">
 				<?php
@@ -126,8 +115,6 @@ JS
 	]);
 	ActiveForm::end();
 	Pjax::end();
-
 	?>
 
 </div>
-

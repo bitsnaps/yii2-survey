@@ -21,7 +21,6 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $question \onmotion\survey\models\SurveyQuestion */
 /* @var $number integer */
-/* @var $readonly boolean */
 
 Pjax::begin([
     'id' => 'survey-questions-pjax-' . $question->survey_question_id,
@@ -66,7 +65,7 @@ if ($question->survey_question_show_descr) {
 
 echo Html::beginTag('div', ['class' => 'answers-container', 'id' => 'survey-answers-' . $question->survey_question_id]);
 if (isset($question->survey_question_type)) {
-    echo $this->render('@surveyRoot/views/widget/answers/_form', ['question' => $question, 'form' => $form, 'readonly' => $readonly]);
+    echo $this->render('@surveyRoot/views/widget/answers/_form', ['question' => $question, 'form' => $form]);
 }
 
 echo Html::endTag('div');

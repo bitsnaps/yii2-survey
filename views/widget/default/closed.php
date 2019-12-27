@@ -19,6 +19,6 @@ use yii\helpers\Url;
 ?>
 
 
-<h4>Survey Closed</h4>
+<h4><?= \Yii::t('survey', 'Survey Closed'); ?></h4>
 
 

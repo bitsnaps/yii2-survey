@@ -112,7 +112,8 @@ class QuestionController extends Controller
         $question = $this->findModel($id);
         $this->validate($question);
 
-        return $this->renderAjax('@surveyRoot/views/widget/question/_form', ['question' => $question, 'number' => $n]);
+        return $this->renderAjax('@surveyRoot/views/widget/question/_form', 
+                ['question' => $question, 'number' => $n]);
     }
 
     protected function findModel($id)

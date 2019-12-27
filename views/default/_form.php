@@ -170,6 +170,8 @@ echo Dialog::widget();
             echo Html::tag('div', '', ['class' => 'clearfix']);
             echo $form->field($survey, "survey_is_pinned", ['template' => "<div class='survey-form-field submit-on-click'>{input}{label}</div>",]
             )->checkbox(['class' => 'checkbox'], false);
+            echo $form->field($survey, "survey_is_visible", ['template' => "<div class='survey-form-field submit-on-click'>{input}{label}</div>",]
+            )->checkbox(['class' => 'checkbox'], false);
             echo Html::endTag('div');
 
             echo Html::beginTag('div', ['class' => 'col-md-6']);

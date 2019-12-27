@@ -20,7 +20,7 @@ class SurveySearch extends Survey
         return [
             [['survey_id', 'survey_badge_id'], 'integer'],
             [['survey_name', 'survey_created_at', 'survey_updated_at', 'survey_expired_at'], 'safe'],
-            [['survey_is_pinned', 'survey_is_closed'], 'boolean'],
+            [['survey_is_pinned', 'survey_is_closed', 'survey_is_visible'], 'boolean'],
         ];
     }
 
@@ -65,6 +65,7 @@ class SurveySearch extends Survey
             'survey_expired_at' => $this->survey_expired_at,
             'survey_is_pinned' => $this->survey_is_pinned,
             'survey_is_closed' => $this->survey_is_closed,
+            'survey_is_visible' => $this->survey_is_visible,
         ]);
 
         $query->andFilterWhere(['like', 'survey_name', $this->survey_name]);

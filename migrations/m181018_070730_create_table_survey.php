@@ -18,6 +18,7 @@ class m181018_070730_create_table_survey extends Migration
             'survey_updated_at' => $this->timestamp(),
             'survey_expired_at' => $this->timestamp(),
             'survey_is_pinned' => $this->boolean()->defaultValue('0'),
+            'survey_is_visible' => $this->boolean()->defaultValue('0'),
             'survey_is_closed' => $this->boolean()->defaultValue('0'),
             'survey_tags' => $this->string(),
             'survey_image' => $this->string(),

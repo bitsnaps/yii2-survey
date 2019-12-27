@@ -17,7 +17,7 @@ use yii\helpers\Url;
 
 echo Html::beginTag('div', ['class' => 'answers-stat']);
 
-    $average = $question->answers[0]->getTotalUserAnswersCount();
+    $average = count($question->answers) > 0? $question->answers[0]->getTotalUserAnswersCount():0;
     $average = $average > 0 ? round($average, 1) : 0;
     echo "average <b>$average</b>";
 

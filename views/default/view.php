@@ -112,6 +112,7 @@ BootstrapPluginAsset::register($this);
                 echo Html::tag('div', '', ['class' => 'clearfix']);
                 echo $form->field($survey, "survey_is_visible", ['template' => "<div class='survey-form-field submit-on-click'>{input}{label}</div>",]
                 )->checkbox(['class' => 'checkbox'], false);
+                echo Html::tag('div', '', ['class' => 'clearfix']);
 				if ($withUserSearch) {
 					echo Html::tag('div', '', ['class' => 'clearfix']);
 					echo $form->field($survey,

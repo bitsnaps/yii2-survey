@@ -60,7 +60,7 @@ class SurveyUserAnswer extends \yii\db\ActiveRecord
                 ['survey_user_answer_user_id'], 
                 'exist', 
                 'skipOnError' => true, 
-                'targetClass' => \Yii::$app->user->className(), 
+                'targetClass' => \Yii::$app->user->identityClass, 
                 'targetAttribute' => ['survey_user_answer_user_id' => 'id']
                 ],
         ];
@@ -120,7 +120,8 @@ class SurveyUserAnswer extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(\Yii::$app->user->className(), ['id' => 'survey_user_answer_user_id']);
+//        return $this->hasOne(\Yii::$app->user->className(), ['id' => 'survey_user_answer_user_id']);
+        return $this->hasOne(\Yii::$app->user->identityClass, ['id' => 'survey_user_answer_user_id']);
     }
 
 

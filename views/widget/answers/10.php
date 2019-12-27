@@ -17,9 +17,9 @@ use yii\helpers\Url;
 $userAnswers = $question->userAnswers;
 
 $ddList = [
-		1 => \Yii::t('survey', 'Available'),
-		2 => \Yii::t('survey', 'Unavailable'),
-		3 => \Yii::t('survey', 'If needed'),
+    1 => \Yii::t('survey', 'Available'),
+    2 => \Yii::t('survey', 'Unavailable'),
+    3 => \Yii::t('survey', 'If needed'),
 ];
 
 foreach ($question->answers as $i => $answer) {

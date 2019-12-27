@@ -19,7 +19,7 @@ class m181018_070730_create_table_survey_type extends Migration
 
         $this->batchInsert('{{%survey_type}}', ['survey_type_name', 'survey_type_descr'], [
             ['Multiple choice', 'Ask your respondent to choose multiple answers from your list of answer choices.'],
-            ['One choise of list', 'Ask your respondent to choose one answer from your list of answer choices.'],
+            ['Single choice', 'Ask your respondent to choose one answer from your list of answer choices.'],
             ['Dropdown', 'Provide a dropdown list of answer choices for respondents to choose from.'],
             ['Ranking', 'Ask respondents to rank a list of options in the order they prefer using numeric dropdown menus.'],
             ['Slider', 'Ask respondents to rate an item or question by dragging an interactive slider.'],

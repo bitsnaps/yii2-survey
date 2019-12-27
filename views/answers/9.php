@@ -15,7 +15,6 @@ use yii\helpers\Url;
 
 //$form->field()
 foreach ($question->answers as $i => $answer) {
-
     echo $form->field($answer, "[$question->survey_question_id][$i]survey_answer_name", [
     'template' => "<div class='survey-questions-form-field'><div class='inline-input'>{label}{input}</div>\n{error}</div>",
     ])->input('text')->label(\Yii::t('survey', 'Label') . ' ' . ($i + 1));

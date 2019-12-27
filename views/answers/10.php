@@ -15,7 +15,7 @@ foreach ($question->answers as $i => $answer) {
 	if ($question->survey_question_is_scorable) {
 		echo Html::beginTag('div', ['class' => 'points-wrap']);
 		if ($i === 0) {
-			echo Html::tag('span', 'Баллы', ['class' => 'points-title']);
+			echo Html::tag('span', \Yii::t('survey', 'Points'), ['class' => 'points-title']);
 		}
 		echo $form->field($answer, "[$question->survey_question_id][$i]survey_answer_points")->input('number')->label(false);
 		echo Html::endTag('div');

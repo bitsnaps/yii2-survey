@@ -77,11 +77,10 @@ echo Html::csrfMetaTags();
                     echo Html::tag('div', $status, ['class' => "status $statusClass"]);
                     echo Html::endTag('div');
 
-
                     if ($survey->survey_wallet > 0 && \Yii::$app->user->identity->hasWallet()) {
                         ?>
                         <div class="infopane-block">
-                            <p>Баллов в кошелек:</p>
+                            <p>Points in the wallet:</p>
                             <div class="wallet-price">
                                 <i class="icon-wallet" aria-hidden="true"></i>
                                 <span class="price">+<?= $survey->survey_wallet ?></span>
@@ -92,7 +91,7 @@ echo Html::csrfMetaTags();
                     if ($survey->survey_status > 0) {
                         ?>
                         <div class="infopane-block">
-                            <p>Баллов в статус:</p>
+                            <p>Status Points:</p>
                             <div class="status-price">
                                 <i class="icon-star" aria-hidden="true"></i>
                                 <span class="price">+<?= $survey->survey_status ?></span>

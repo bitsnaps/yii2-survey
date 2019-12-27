@@ -53,7 +53,7 @@ return [
     'You must enter an answer' => 'Необходимо ввести ответ',
 
     'Multiple choice' => 'Множественный выбор',
-    'One choise of list' => 'Один из списка',
+    'Single choice' => 'Один из списка',
     'Dropdown' => 'Выпадающий список',
     'Ranking' => 'Ранжирование',
     'Slider' => 'Слайдер',
